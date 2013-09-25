@@ -28,18 +28,17 @@ post "/" do
 end  
 
 post "/game" do 
-  p params.inspect
-
-  @game = Game.find(params[:game_num].to_i)
-  @winner = Player.find_by_name(params[:winner])
-  @game.update_attributes(winner_name: @winner.name)
-  @game.update_attributes(race_time: params[:time])
-  @game.update_attributes(done: params[:done])
+  p "params for this one look like this>>>"
+  p params
+  @game = Game.find_by_id(params[:game_id].to_i)
+  p "this is the game"
   p @game
-  @winner.win += 1
-  @winner.save
-  {}
+  @game.update_attributes(winner_name: params[:winner], race_time: params[:elapsed_time], done: params[:done])
 
+  p @game
+    content_type :json
+    {excitement: "Booyah"}.to_json
+ 
 end  
 
 
